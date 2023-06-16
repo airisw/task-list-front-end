@@ -11,7 +11,17 @@ const Task = (props) => {
       isComplete: !props.isComplete,
     };
 
-    props.onUpdateTask(updatedTask.id);
+    props.onUpdateTaskData(updatedTask.id);
+  };
+
+  const onRemoveButtonClick = () => {
+    const removedTask = {
+      id: props.id,
+      title: props.title,
+      isComplete: props.isComplete,
+    };
+
+    props.onRemoveTaskData(removedTask.id);
   };
 
   const buttonClass = props.isComplete ? 'tasks__item__toggle--completed' : '';
@@ -20,11 +30,14 @@ const Task = (props) => {
     <li className="tasks__item">
       <button
         className={`tasks__item__toggle ${buttonClass}`}
-  onClick={onUpdateButtonClick}
+        onClick={onUpdateButtonClick}
       >
         {props.title}
       </button>
-      <button className="tasks__item__remove button">x</button>
+      <button 
+        className="tasks__item__remove button"
+        onClick={onRemoveButtonClick}
+      >x</button>
     </li>
   );
 };
@@ -33,7 +46,8 @@ Task.propTypes = {
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   isComplete: PropTypes.bool.isRequired,
-  onUpdateTask: PropTypes.func.isRequired,
+  onUpdateTaskData: PropTypes.func.isRequired,
+  onRemoveTaskData: PropTypes.func.isRequired,
 };
 
 export default Task;
