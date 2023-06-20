@@ -41,6 +41,9 @@ const App = () => {
     setTaskData(tasks => {
       return tasks.filter(task => task.id !== id);
     });
+    axios.delete(`https://task-list-api-c17.onrender.com/tasks/${id}`)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
   };
 
   return (
