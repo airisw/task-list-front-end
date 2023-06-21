@@ -11,7 +11,7 @@ const Task = (props) => {
       isComplete: !props.isComplete,
     };
 
-    props.onUpdateTaskData(updatedTask.id);
+    props.onUpdateTaskData(updatedTask);
   };
 
   const onRemoveButtonClick = () => {

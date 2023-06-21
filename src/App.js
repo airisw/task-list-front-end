@@ -4,7 +4,7 @@ import TaskList from './components/TaskList.js';
 import './App.css';
 
 const App = () => {
-  
+
   const [taskData, setTaskData] = useState([]);
 
   const taskDataConvert = (res) => {
@@ -17,15 +17,15 @@ const App = () => {
   };
 
   useEffect(() => {
-    axios.get('https://task-list-api-c17.onrender.com/tasks')
+    axios.get('http://localhost:5000/tasks')
       .then((res) => setTaskData(() => taskDataConvert(res.data)))
       .catch((err) => console.log(err));
   }, []);
 
-  const updateTaskData = (id) => {
+  const updateTaskData = (updatedTask) => {
     setTaskData(tasks => {
       return tasks.map(task => {
-        if (id === task.id) {
+        if (updatedTask.id === task.id) {
           return {
             ...task,
             isComplete: !task.isComplete,
@@ -35,13 +35,19 @@ const App = () => {
         }
       });
     });
+
+    const completeEndpoint = updatedTask.isComplete ? 'mark_complete' : 'mark_incomplete';
+
+    axios.patch(`http://localhost:5000/tasks/${updatedTask.id}/${completeEndpoint}`)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
   };
 
   const removeTaskData = (id) => {
     setTaskData(tasks => {
       return tasks.filter(task => task.id !== id);
     });
-    axios.delete(`https://task-list-api-c17.onrender.com/tasks/${id}`)
+    axios.delete(`http://localhost:5000/tasks/${id}`)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
   };
