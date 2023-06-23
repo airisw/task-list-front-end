@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import TaskList from './components/TaskList.js';
 import './App.css';
+import NewTaskForm from './components/NewTaskForm.js';
 
 const App = () => {
 
@@ -18,7 +19,8 @@ const App = () => {
 
   useEffect(() => {
     axios.get('http://localhost:5000/tasks')
-      .then((res) => setTaskData(() => taskDataConvert(res.data)))
+      .then((res) => setTaskData(() => {
+        return taskDataConvert(res.data);}))
       .catch((err) => console.log(err));
   }, []);
 
@@ -52,6 +54,15 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
+  const handleSubmit = (data) => {
+    axios.post('http://localhost:5000/tasks', data)
+      .then((res) => {
+        const convertedTask = taskDataConvert([res.data.task, ...taskData]);
+        return setTaskData(convertedTask);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -59,6 +70,7 @@ const App = () => {
       </header>
       <main>
         <div>
+          <NewTaskForm onHandleSubmit={handleSubmit} />
           <TaskList tasks={taskData} onUpdateTaskData={updateTaskData} onRemoveTaskData={removeTaskData} />
         </div>
       </main>
