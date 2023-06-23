@@ -26,8 +26,8 @@ const NewTaskForm = (props) => {
     };
 
     return (
-        <form onSubmit={handleFormSubmit}>
-            <label htmlFor="name">Task Title:</label>
+        <form className="task_form" onSubmit={handleFormSubmit}>
+            <label htmlFor="name" className="form_title">Task Title:</label>
             <input 
                 type="text" 
                 id="name" 

@@ -1,0 +1,10 @@
+.task_form {
+    width: 50%;
+    margin: auto;
+    margin-top: 2vh;
+    margin-bottom: 5vh;
+  }
+  
+.form_title {
+  font-size: 16px;
+}
