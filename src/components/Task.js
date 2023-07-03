@@ -5,13 +5,7 @@ import './Task.css';
 
 const Task = (props) => {
   const onUpdateButtonClick = () => {
-    const updatedTask = {
-      id: props.id,
-      title: props.title,
-      isComplete: !props.isComplete,
-    };
-
-    props.onUpdateTaskData(updatedTask);
+    props.onUpdateTaskData(props.id);
   };
 
   const onRemoveButtonClick = () => {
