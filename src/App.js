@@ -5,7 +5,7 @@ import './App.css';
 import NewTaskForm from './components/NewTaskForm.js';
 
 const App = () => {
-  const kBaseUrl = 'http://localhost:5000';
+  const kBaseUrl = 'https://task-list-api-3t8h.onrender.com/';
 
   const [taskData, setTaskData] = useState([]);
 
