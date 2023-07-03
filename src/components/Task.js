@@ -15,13 +15,7 @@ const Task = (props) => {
   };
 
   const onRemoveButtonClick = () => {
-    const removedTask = {
-      id: props.id,
-      title: props.title,
-      isComplete: props.isComplete,
-    };
-
-    props.onRemoveTaskData(removedTask.id);
+    props.onRemoveTaskData(props.id);
   };
 
   const buttonClass = props.isComplete ? 'tasks__item__toggle--completed' : '';

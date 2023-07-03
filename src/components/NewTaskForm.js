@@ -7,7 +7,6 @@ const NewTaskForm = (props) => {
 
     const handleNameChange = (event) => {
         setName(event.target.value);
-
     };
 
     const handleFormSubmit = (event) => {

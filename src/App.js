@@ -5,6 +5,7 @@ import './App.css';
 import NewTaskForm from './components/NewTaskForm.js';
 
 const App = () => {
+  const kBaseUrl = 'http://localhost:5000';
 
   const [taskData, setTaskData] = useState([]);
 
@@ -18,48 +19,43 @@ const App = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:5000/tasks')
-      .then((res) => setTaskData(() => {
-        return taskDataConvert(res.data);}))
+    axios.get(`${kBaseUrl}/tasks`)
+      .then((res) => setTaskData(taskDataConvert(res.data)))
       .catch((err) => console.log(err));
   }, []);
 
   const updateTaskData = (updatedTask) => {
-    setTaskData(tasks => {
-      return tasks.map(task => {
-        if (updatedTask.id === task.id) {
-          return {
-            ...task,
-            isComplete: !task.isComplete,
-          };
-        } else {
-          return task;
-        }
-      });
-    });
-
     const completeEndpoint = updatedTask.isComplete ? 'mark_complete' : 'mark_incomplete';
 
-    axios.patch(`http://localhost:5000/tasks/${updatedTask.id}/${completeEndpoint}`)
-      .then((res) => console.log(res.data))
+    axios.patch(`${kBaseUrl}/tasks/${updatedTask.id}/${completeEndpoint}`)
+      .then((res) => setTaskData((prev) => {
+        return prev.map(task => {
+          if (updatedTask.id === task.id) {
+            return {
+              ...task,
+              isComplete: !task.isComplete,
+            };
+          } else {
+            return task;
+          }
+        });
+      }))
       .catch((err) => console.log(err));
   };
 
   const removeTaskData = (id) => {
-    setTaskData(tasks => {
-      return tasks.filter(task => task.id !== id);
-    });
-    axios.delete(`http://localhost:5000/tasks/${id}`)
-      .then((res) => console.log(res.data))
+    axios.delete(`${kBaseUrl}/tasks/${id}`)
+      .then((res) => setTaskData((prev) => {
+        return prev.filter(task => task.id !== id);
+      }))
       .catch((err) => console.log(err));
   };
 
   const handleSubmit = (data) => {
-    axios.post('http://localhost:5000/tasks', data)
-      .then((res) => {
-        const convertedTask = taskDataConvert([res.data.task, ...taskData]);
-        return setTaskData(convertedTask);
-      })
+    axios.post(`${kBaseUrl}/tasks`, data)
+      .then((res) => setTaskData((prev) => {
+        return taskDataConvert([res.data.task, ...prev]);
+      }))
       .catch((err) => console.log(err));
   };
 
